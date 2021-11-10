@@ -84,7 +84,7 @@ def warp(img):
 #img = cv2.imread('test_images/test1.jpg')
 #img = cv2.imread('test_images/test2.jpg')
 #img = cv2.imread('test_images/test3.jpg')
-img = cv2.imread('test_images/test8.png')
+img = cv2.imread('test_images/test7.png')
 #img = cv2.imread('test_images/test5.jpg')
 #img = cv2.imread('test_images/test6.jpg')
 
@@ -156,7 +156,7 @@ out_img = binary_thresholded(img)
 #img = cv2.imread('test_images/test3.jpg')
 #img = cv2.imread('test_images/test4.jpg')
 #img = cv2.imread('test_images/test5.jpg')
-img = cv2.imread('test_images/test8.png')
+img = cv2.imread('test_images/test7.png')
 
 binary_thresh = binary_thresholded(img)
 out_img = np.dstack((binary_thresh, binary_thresh, binary_thresh))*255
@@ -298,7 +298,7 @@ print('prev right fit: ', prev_right_fit)
 
 ### STEP 5: Detection of Lane Lines Based on Previous Step ###
 
-img = cv2.imread('test_images/test8.png')
+img = cv2.imread('test_images/test7.png')
 binary_thresh = binary_thresholded(img)
 binary_warped, M_inv = warp(binary_thresh)
 
