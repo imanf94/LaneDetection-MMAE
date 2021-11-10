@@ -2,6 +2,8 @@ import os
 import airsim
 import time
 import numpy as np
+from numpy.core.fromnumeric import size
+from scipy.interpolate import InterpolatedUnivariateSpline
 
 import re
 import cv2
@@ -37,9 +39,11 @@ error_int = []
 controlledSteering = []
 var = []
 var2 = []
+var_obs = []
 prob = []
 prob2 = []
 observer = []
+cor_obs = []
 
 end_bool = True
 while end_bool:
@@ -79,6 +83,7 @@ while end_bool:
     controlledSteering.append(0)
     var.append(0)
     var2.append(0)
+    var_obs.append(0)
     prob.append(0)
     prob2.append(0)
     observer.append(0)
@@ -112,6 +117,13 @@ while end_bool:
 
     # Probability Calc
     if (i>=1):
+        #If the observer offset changes more than 50cm in one timestep -> estimation
+        if(abs(cor_obs[i-1]-observer[i])>50):
+            s = InterpolatedUnivariateSpline(np.array([1,2]), cor_obs[-3:-2], k=1) #First order extrapolation
+            y = s(3) #Third timpstep
+            cor_obs[i] = y
+        else:
+            cor_obs[i] = observer[i]
         try:
             c1 = math.exp(observer[i-1]-(offset[i]))
             c2 = math.exp(observer[i-1]-(offset2[i]))
@@ -142,6 +154,7 @@ while end_bool:
         timestep[i] = timestep[i-1] + dt
         var[i] = std(offset)
         var2[i] = std(offset2)
+        var_obs = std(observer)
     elif(i==1):
         error[i] = main_offs[i]
         error_dot[i] = (main_offs[i]-main_offs[i-1])/dt
@@ -168,10 +181,12 @@ line1 = axes[0].plot(timestep, offset, label = "Model 1")
 line2 = axes[0].plot(timestep, offset2, label = "Model 2")
 line3 = axes[0].plot(timestep, main_offs, label = "Final Model")
 line04 = axes[0].plot(timestep, observer, label = "Observer")
+line05 = axes[0].plot(timestep, observer, label = "Corrected Observer")
 axes[0].legend(bbox_to_anchor=(0.5, 1.05), loc="upper center")
 axes[0].set(ylabel='Offset (cm)')
 axes[0].set_xlim([0, 80])
 axes[0].set_ylim([-100, 80])
+axes[0].set(size=[10,2])
 
 line4 = axes[1].plot(timestep, var, label = "Model 1")
 line5 = axes[1].plot(timestep, var2, label = "Model 2")

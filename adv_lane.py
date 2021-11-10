@@ -124,7 +124,7 @@ def binary_thresholded(img):
     #plt.show()
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     # Draw figure for binary images
-    f, axarr = plt.subplots(1,6)
+    """ f, axarr = plt.subplots(1,6)
     f.set_size_inches(25, 8)
     axarr[0].imshow(img)
     axarr[1].imshow(sx_binary, cmap='gray')
@@ -143,7 +143,7 @@ def binary_thresholded(img):
     axarr[2].axis('off')
     axarr[3].axis('off')
     axarr[4].axis('off')
-    axarr[5].axis('off')
+    axarr[5].axis('off') """
     
     return binary
 
@@ -409,12 +409,12 @@ def project_lane_info(img, binary_warped, ploty, left_fitx, right_fitx, M_inv, l
 new_img = project_lane_info(cv2.cvtColor(img, cv2.COLOR_BGR2RGB), binary_warped, ploty, left_fitx, right_fitx, M_inv, left_curverad, right_curverad, veh_pos)
 
 # Plot the result
-f, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9))
+""" f, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9))
 f.tight_layout()
 ax1.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 ax1.set_title('Original Image', fontsize=20)
 ax2.imshow(new_img, cmap='gray')
-ax2.set_title('Image With Lane Marked', fontsize=20)
+ax2.set_title('Image With Lane Marked', fontsize=20) """
 
 global left_fit_hist 
 left_fit_hist = np.array([])
